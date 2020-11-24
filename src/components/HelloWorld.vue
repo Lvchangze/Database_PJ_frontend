@@ -8,10 +8,10 @@
     methods: {
       hhh() {
         this.axios({
-          url:  "/api/addPerson",
+          url:  "/addPerson",
           method: "post",
           params: {
-            name:""
+            name:"深圳不"
           }
         }).then(res => {
           console.log(res)
