@@ -11,7 +11,7 @@
           url:  "/api/addPerson",
           method: "post",
           params: {
-            name:"吕昌泽"
+            name:""
           }
         }).then(res => {
           console.log(res)
