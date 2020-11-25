@@ -92,7 +92,7 @@
           },
           {
             value: 1,
-            label: '急诊医生'
+            label: '急诊护士'
           },
           {
             value: 2,

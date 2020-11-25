@@ -6,6 +6,7 @@
       <div class="right">
         <div class="items"><span class="txt">你好，{{this.currentId}}号工作人员</span></div>
         <span class="line"></span>
+
         <div class="login"><span class="txt" v-on:click="quit">退出登录</span></div>
       </div>
     </el-header>
@@ -14,7 +15,7 @@
       <div style="width: 200px;height: 100%">
         <el-menu
           style="width: 200px;height:60px;line-height: 60px;background-color: #fafbfc;text-align: left;">
-          <span style="padding-left: 32px;color: black">导航菜单</span>
+          <span style="padding-left: 32px;color: black">菜单</span>
         </el-menu>
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router
                  style="position: absolute; top: 60px; bottom: 0;width: 200px;background-color: #fafbfc">
@@ -36,12 +37,12 @@
     name: "Main",
     data() {
       return {
-        // currentJob: this.$store.currentJob,
-        // currentId: this.$store.currentId,
+        currentJob: this.$store.state.currentJob,
+        currentId: this.$store.state.currentId,
 
         //开发时的临时赋值
-        currentId: 1,
-        currentJob: 1,
+        // currentId: 1,
+        // currentJob: 1,
         loading: false
       }
     },

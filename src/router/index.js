@@ -11,13 +11,13 @@ Vue.use(Router)
 export const router = new Router({
   mode: 'history',
   routes: [
-    {//与后端联通时，此处要改，默认是login
+    {
       path: '/',
       name: 'Login',
       component: Login
     },
     {
-      path: '/login',
+      path: '/Login',
       name: 'login',
       component: Login
     },

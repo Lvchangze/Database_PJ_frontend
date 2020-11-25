@@ -16,7 +16,7 @@
             </el-form-item>
 
             <el-form-item prop="gender" class="form-label" label="性别" label-width="80px">
-              <el-select v-model="patientForm.gender" placeholder="请选择性别">
+              <el-select v-model="patientForm.gender" placeholder="请选择性别" style="width: 330px">
                 <el-option
                   v-for="item in genderOption"
                   :key="item.value"
