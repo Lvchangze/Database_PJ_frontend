@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(Element)
 
 import axios from 'axios'
-Vue.prototype.axios = axios
+Vue.prototype.$axios = axios
 axios.defaults.baseURL = '/api'
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = "application/json;charset=UTF-8";
