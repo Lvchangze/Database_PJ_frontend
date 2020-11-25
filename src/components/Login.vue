@@ -68,7 +68,6 @@
           this.$message.error('工号和密码均不得为空');
           return;
         }
-        this.loginForm.id = parseInt(this.loginForm.id)
         this.$axios.post('/login', {
           id: this.loginForm.id,
           password: this.loginForm.password

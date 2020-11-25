@@ -15,9 +15,15 @@
                         placeholder="请输入病人姓名"></el-input>
             </el-form-item>
 
-            <el-form-item label="性别" prop="gender" class="form-label" style="text-align: left">
-              <el-input type="text" v-model="patientForm.gender" autocomplete="off"
-                        placeholder="请输入病人性别"></el-input>
+            <el-form-item prop="gender" class="form-label" label="性别" label-width="80px">
+              <el-select v-model="patientForm.gender" placeholder="请选择性别">
+                <el-option
+                  v-for="item in genderOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
 
             <el-form-item label="年龄" prop="age" class="form-label" style="text-align: left">
@@ -64,7 +70,7 @@
             </el-form-item>
 
             <el-form-item label="检测结果" prop="testResult" class="form-label" style="text-align: left">
-              <el-select v-model="patientForm.sickLevel" placeholder="请选择检测结果" style="width: 330px">
+              <el-select v-model="patientForm.testResult" placeholder="请选择检测结果" style="width: 330px">
                 <el-option
                   v-for="item in testResultOption"
                   :key="item.value"
@@ -131,6 +137,16 @@
             label: "阴性"
           },
         ],
+        genderOption: [
+          {
+            value: 0,
+            label: '男'
+          },
+          {
+            value: 1,
+            label: '女'
+          },
+        ],
         rules: {
           name: [{required: true, message: '姓名不得为空', trigger: 'blur'}],
           gender: [{required: true, message: '性别不得为空', trigger: 'blur'}],
@@ -157,7 +173,27 @@
         this.patientForm.testResult = "";
       },
       submit() {
+        console.log(this.patientForm)
+        this.$axios.post('/addNewPatient', {
+          name: this.patientForm.name,
+          age: this.patientForm.age,
+          gender: this.patientForm.gender,
 
+          arriveDate: this.patientForm.arriveDate,
+          temperature: this.patientForm.temperature,
+          sickLevel: this.patientForm.sickLevel,
+
+          testDate: this.patientForm.testDate,
+          testResult: this.patientForm.testResult,
+        })
+          .then(resp => {
+            this.$message.success("提交成功")
+            this.clear()
+          })
+          .catch(error => {
+            this.$message.error("提交失败，请重试")
+            console.log(error)
+          })
       }
     }
   }

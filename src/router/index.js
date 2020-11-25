@@ -13,8 +13,8 @@ export const router = new Router({
   routes: [
     {//与后端联通时，此处要改，默认是login
       path: '/',
-      name: 'Main',
-      component: Main
+      name: 'Login',
+      component: Login
     },
     {
       path: '/login',
