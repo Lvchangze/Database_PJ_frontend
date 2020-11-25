@@ -15,6 +15,12 @@ export default new Vuex.Store({
       state.currentJob = data.job;
       state.currentId = data.id;
     },
+    logout(state){
+      localStorage.removeItem('currentJob');
+      localStorage.removeItem('currentId');
+      state.currentJob = null;
+      state.currentId = null;
+    }
   },
   actions: {}
 })
