@@ -2,48 +2,57 @@
   <div id="base_register" style="height: 100%">
     <div class="register_container">
       <el-form :model="registerForm" :rules="rules" label-position="top" size="small"
-               style="width: 263px;margin: auto"
+               style="width: 263px;margin-left: 52px;"
                label-width="0px" v-loading="loading" :ref="registerForm">
         <div class="register_title" style="color: black;font-size: 32px">注册</div>
-        <el-form-item prop="username" class="form-label" label="用户名" label-width="80px">
-          <el-input type="text" v-model="registerForm.username"
-                    auto-complete="off" placeholder="请输入用户名"></el-input>
+
+        <el-form-item prop="job" label="类别" class="form-label" style="text-align: left"
+                      label-width="80px">
+          <el-select v-model="registerForm.job" placeholder="请选择类型">
+            <el-option
+              v-for="item in jobOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item prop="name" class="form-label" label="姓名" label-width="80px">
+          <el-input type="text" v-model="registerForm.name"
+                    auto-complete="off" placeholder="请输入姓名" style="width: 203px"></el-input>
         </el-form-item>
 
         <el-form-item prop="password" class="form-label" label="密码" label-width="80px">
           <el-input type="password" v-model="registerForm.password"
-                    auto-complete="off" placeholder="请输入密码"></el-input>
+                    auto-complete="off" placeholder="请输入密码" style="width: 203px"></el-input>
         </el-form-item>
 
-        <el-form-item prop="fullName" class="form-label" label="姓名" label-width="80px">
-          <el-input type="text" v-model="registerForm.fullName"
-                    auto-complete="off" placeholder="请输入姓名"></el-input>
+        <el-form-item prop="gender" class="form-label" label="性别" label-width="80px">
+          <el-select v-model="registerForm.gender" placeholder="请选择性别">
+            <el-option
+              v-for="item in genderOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
-        <el-form-item prop="email" class="form-label" label="邮箱" label-width="80px">
-          <el-input type="email" v-model="registerForm.email"
-                    auto-complete="off" placeholder="请输入邮箱"></el-input>
+        <el-form-item prop="age" class="form-label" label="年龄" label-width="80px">
+          <el-input type="text" v-model="registerForm.age"
+                    auto-complete="off" placeholder="请输入年龄" style="width: 203px"></el-input>
         </el-form-item>
 
-        <el-form-item prop="area" class="form-label" label="地区" label-width="80px">
-          <el-input type="text" v-model="registerForm.area"
-                    auto-complete="off" placeholder="请输入地区"></el-input>
-        </el-form-item>
-
-        <el-form-item prop="unit" class="form-label" label="单位" label-width="80px">
-          <el-input type="text" v-model="registerForm.unit"
-                    auto-complete="off" placeholder="请输入单位"></el-input>
-        </el-form-item>
-
-        <el-form-item style="width: 100%">
+        <el-form-item style="width: 100%;margin-left: -30px">
           <router-link to="login">
             <el-button type="primary"
-                       style="width: 40%;background-color: white;border-color:#ddd;border-radius: 3px;margin-right: 11px;color: black"
+                       style="width: 100px;background-color: white;border-color:#ddd;border-radius: 3px;margin-right: 11px;color: black"
             >返回
             </el-button>
           </router-link>
           <el-button type="primary"
-                     style="width: 54%;background-color: #356eff;border-color: #356eff;border-radius: 3px"
+                     style="width: 100px;background-color: #356eff;border-color: #356eff;border-radius: 3px"
                      v-on:click="register(registerForm)">注册
           </el-button>
         </el-form-item>
@@ -61,14 +70,84 @@
     name: "Register",
     data() {
       return {
-        registerForm: {
-          username: '',
-          password: '',
-          fullName: '',
-          email: '',
-          area: '',
-          unit: '',
+        rules: {
+          job: [{required: true, message: '类型不得为空', trigger: 'blur'}],
+          name: [{required: true, message: '姓名不得为空', trigger: 'blur'}],
+          password: [{required: true, message: '密码不得为空', trigger: 'blur'}],
+          gender: [{required: true, message: '性别不得为空', trigger: 'blur'}],
+          age: [{required: true, message: '年龄不得为空', trigger: 'blur'}],
         },
+        registerForm: {
+          job: '',
+          password: '',
+          name: '',
+          gender: '',
+          age: '',
+        },
+        loading: false,
+        jobOption: [
+          {
+            value: 0,
+            label: '主治医生'
+          },
+          {
+            value: 1,
+            label: '急诊医生'
+          },
+          {
+            value: 2,
+            label: '护士长'
+          },
+          {
+            value: 3,
+            label: '病房护士'
+          },
+        ],
+        genderOption: [
+          {
+            value: 0,
+            label: '男'
+          },
+          {
+            value: 1,
+            label: '女'
+          },
+        ]
+      }
+
+    },
+    methods: {
+      register() {
+        console.log(this.registerForm)
+        if (this.registerForm.job === '' ||
+          this.registerForm.id === "" ||
+          this.registerForm.name === "" ||
+          this.registerForm.age === "" ||
+          this.registerForm.gender === "") {
+          this.$message.error('任何一项不得为空');
+          return;
+        }
+        this.$axios.post('/register', {
+          job: this.registerForm.job,
+          name: this.registerForm.name,
+          password: this.registerForm.password,
+          age: this.registerForm.age,
+          gender: this.registerForm.gender,
+        })
+          .then(resp => {
+            console.log(resp)
+            if (resp.status === 200) {
+              this.$message({
+                message: '注册成功',
+                type: 'success'
+              });
+              this.$router.replace('/login');
+            }
+          })
+          .catch(error => {
+            console.log(error)
+            this.$message.error('注册失败，您注册的岗位已满三人');
+          })
       }
     }
   }
@@ -79,7 +158,7 @@
     background: url("../assets/1.png") repeat center;
     height: 100%;
     width: 100%;
-    background-size: contain;
+    background-size: cover;
     position: fixed;
   }
 

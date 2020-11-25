@@ -10,17 +10,7 @@
                style="width: 260px;margin: auto"
                v-loading="loading">
         <div class="login_title" style="">登录</div>
-        <el-form-item prop="id" label="类别" class="form-label" style="text-align: left"
-                      label-width="80px">
-          <el-select v-model="loginForm.job" placeholder="请选择类型">
-            <el-option
-              v-for="item in jobOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+
         <el-form-item prop="id" label="工号" class="form-label" style="text-align: left"
                       label-width="80px">
           <el-input type="text"
@@ -28,12 +18,14 @@
                     auto-complete="off"
                     placeholder="请输入工号"></el-input>
         </el-form-item>
+
         <el-form-item prop="password" label="密码" class="form-label" style="text-align: left" label-width="80px">
           <el-input type="password"
                     v-model="loginForm.password"
                     auto-complete="off"
                     placeholder="请输入密码"></el-input>
         </el-form-item>
+
         <el-form-item style="width: 100%">
           <el-button type="primary"
                      style="background-color: #356eff;border-color: #356eff;width: 260px;border-radius: 3px;margin-top: 25px;margin-bottom: 5px"
@@ -44,6 +36,7 @@
             <a>注册</a>
           </router-link>
         </el-form-item>
+
       </el-form>
     </div>
 
@@ -57,68 +50,48 @@
     data() {
       return {
         loginForm: {
-          job: null,
           id: '',
           password: ''
         },
         rules: {
-          job: [{required: true, message: '类型不得为空', trigger: 'blur'}],
           id: [{required: true, message: '工号不得为空', trigger: 'blur'}],
           password: [{required: true, message: '密码不得为空', trigger: 'blur'}]
         },
         loading: false,
-        jobOption: [
-          {
-            value: 0,
-            label: '主治医生'
-          },
-          {
-            value: 1,
-            label: '急诊医生'
-          },
-          {
-            value: 2,
-            label: '护士长'
-          },
-          {
-            value: 3,
-            label: '病房护士'
-          },
-        ],
       }
     },
 
     methods: {
       login() {
-        if (this.loginForm.job === '' ||
-          this.loginForm.id === "" ||
+        if (this.loginForm.id === "" ||
           this.loginForm.password === "") {
-          this.$message.error('类型、工号和密码均不得为空');
+          this.$message.error('工号和密码均不得为空');
           return;
         }
-        console.log(this.loginForm)
+        this.loginForm.id = parseInt(this.loginForm.id)
         this.$axios.post('/login', {
-          job: this.loginForm.job,
           id: this.loginForm.id,
           password: this.loginForm.password
         })
           .then(resp => {
-            if (resp.data.hasOwnProperty("code")) {
-              const stateCode = resp.data.code;
-              if (stateCode === 404) {//404——NOTFOUND
-                this.$message.error('工号不存在');
-              } else if (stateCode === 403) {//403——FORBIDDEN
-                this.$message.error('密码错误');
-              }
-            } else if (resp.status === 200) {
-              this.$store.commit('setCurrentUser', this.loginForm);
+            console.log(resp)
+            if (resp.status === 200) {
+              this.$message({
+                message: '登陆成功',
+                type: 'success'
+              });
+              this.$store.commit('setCurrentUser', resp.data.staff);
               this.$router.replace({path: '/Main'})
             }
           })
-          .catch(error =>
-            console.log(error));
+          .catch(error => {
+              this.$message.error('工号或密码错误');
+              console.log(error)
+            }
+          );
       }
-    },
+    }
+    ,
   }
 </script>
 
@@ -127,7 +100,7 @@
     background: url("../assets/1.png") repeat center;
     height: 100%;
     width: 100%;
-    background-size: contain;
+    background-size: cover;
     position: fixed;
   }
 
