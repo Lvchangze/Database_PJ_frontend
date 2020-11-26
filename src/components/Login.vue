@@ -73,6 +73,9 @@
           password: this.loginForm.password
         })
           .then(resp => {
+            if (resp.data.staff === null){
+              throw error()
+            }
             console.log(resp)
             if (resp.status === 200) {
               this.$message({

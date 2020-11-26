@@ -12,7 +12,7 @@
 
 
           <!--    查询护士长并显示其结果      -->
-          <div v-if="this.currentJob === 0">
+          <div v-if="this.currentJob == 0">
             <div style="font-size: 20px">查询护士长</div>
             <el-form :model="searchNurseLeaderForm" label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
@@ -53,7 +53,7 @@
           </div>
 
           <!--    查询病房护士并显示其结果      -->
-          <div v-if="this.currentJob === 0 || this.currentJob === 2">
+          <div v-if="this.currentJob == 0 || this.currentJob == 2">
             <div style="font-size: 20px">查询病房护士</div>
             <el-form :model="searchRoomNurseForm" label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
@@ -162,12 +162,21 @@
           treatArea: this.searchNurseLeaderForm.treatArea
         })
           .then(resp => {
-            this.nurseLeaderResult = resp.data
-            if (this.nurseLeaderResult.gender === 0) {
-              this.nurseLeaderResult.gender = '男'
+            console.log(resp)
+            this.nurseLeaderResult = []
+            if (resp.data.nurseLeader.gender === 0) {
+              resp.data.nurseLeader.gender = '男'
             } else {
-              this.nurseLeaderResult.gender = '女'
+              resp.data.nurseLeader.gender = '女'
             }
+            this.nurseLeaderResult.push(
+              {
+                id: resp.data.nurseLeader.id,
+                name: resp.data.nurseLeader.name,
+                gender: resp.data.nurseLeader.gender,
+                age: resp.data.nurseLeader.age
+              }
+            )
             this.$message.success("查询成功")
           })
           .catch(error => {
@@ -175,6 +184,7 @@
             console.log(error)
           })
       },
+
       searchRoomNurse() {
         if (this.searchRoomNurseForm.treatArea === '') {
           this.$message.error('请选择治疗区域')
@@ -184,12 +194,7 @@
           treatArea: this.searchRoomNurseForm.treatArea
         })
           .then(resp => {
-            this.roomNurseResult = resp.data
-            if (this.roomNurseResult.gender === 0) {
-              this.roomNurseResult.gender = '男'
-            } else {
-              this.roomNurseResult.gender = '女'
-            }
+
             this.$message.success("查询成功")
           })
           .catch(error => {
