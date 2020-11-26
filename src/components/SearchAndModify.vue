@@ -184,7 +184,6 @@
             console.log(error)
           })
       },
-
       searchRoomNurse() {
         if (this.searchRoomNurseForm.treatArea === '') {
           this.$message.error('请选择治疗区域')
