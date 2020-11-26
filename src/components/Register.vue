@@ -8,7 +8,7 @@
 
         <el-form-item prop="job" label="类别" class="form-label" style="text-align: left"
                       label-width="80px">
-          <el-select v-model="registerForm.job" placeholder="请选择类型">
+          <el-select v-model="registerForm.job" placeholder="请选择类型" style="width: 203px">
             <el-option
               v-for="item in jobOption"
               :key="item.value"
@@ -29,7 +29,7 @@
         </el-form-item>
 
         <el-form-item prop="gender" class="form-label" label="性别" label-width="80px">
-          <el-select v-model="registerForm.gender" placeholder="请选择性别">
+          <el-select v-model="registerForm.gender" placeholder="请选择性别" style="width: 203px">
             <el-option
               v-for="item in genderOption"
               :key="item.value"
@@ -97,10 +97,6 @@
           {
             value: 2,
             label: '护士长'
-          },
-          {
-            value: 3,
-            label: '病房护士'
           },
         ],
         genderOption: [
