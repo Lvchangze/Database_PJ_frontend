@@ -138,8 +138,9 @@
             console.log(resp)
             if (resp.status === 200) {
               this.$message({
-                message: '注册成功',
-                type: 'success'
+                message: '注册成功，您的工号为'+resp.data.staff.id,
+                type: 'success',
+                duration: 6000
               });
               this.$router.replace('/login');
             }

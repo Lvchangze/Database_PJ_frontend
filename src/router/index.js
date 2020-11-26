@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Main from '@/components/Main'
 import SearchAndModify from '@/components/SearchAndModify'
 import AddNewPatient from '@/components/AddNewPatient'
+import AddNewRoomNurse from '@/components/AddNewRoomNurse'
 
 Vue.use(Router)
 
@@ -40,7 +41,12 @@ export const router = new Router({
           path: '/AddNewPatient',
           name: 'AddNewPatient',
           component: AddNewPatient,
-        }
+        },
+        {
+          path: '/AddNewRoomNurse',
+          name: 'AddNewRoomNurse',
+          component: AddNewRoomNurse,
+        },
       ]
     },
   ]

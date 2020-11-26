@@ -25,6 +25,9 @@
           <el-menu-item index="/AddNewPatient" v-if="this.currentJob === 1">
             <em class="el-icon-user icon"></em><span>登记新病人</span>
           </el-menu-item>
+          <el-menu-item index="/AddNewRoomNurse" v-if="this.currentJob === 2">
+            <em class="el-icon-user icon"></em><span>登记新病人</span>
+          </el-menu-item>
         </el-menu>
       </div>
       <router-view style="margin-left: 10px"></router-view>
@@ -41,7 +44,7 @@
         currentId: this.$store.state.currentId,
 
         //开发时的临时赋值
-        // currentJob: 1,
+        // currentJob: 2,
         // currentId: 4,
         loading: false
       }

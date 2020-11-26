@@ -12,84 +12,86 @@
 
 
           <!--    查询护士长并显示其结果      -->
-          <div style="font-size: 20px" v-if="this.currentJob === 0">查询护士长</div>
-          <el-form :model="searchNurseLeaderForm" label-position="top" size=mini ref="applyForm"
-                   label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
-            <el-form-item label="治疗区域" prop="name" class="form-label" style="text-align: left">
-              <el-select v-model="searchNurseLeaderForm.treatArea" placeholder="请选择治疗区域" style="width: 330px">
-                <el-option
-                  v-for="item in treatAreaOption"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" v-on:click="searchNurseLeader"
-                         style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
-                查询
-              </el-button>
-            </el-form-item>
-          </el-form>
+          <div v-if="this.currentJob === 0">
+            <div style="font-size: 20px">查询护士长</div>
+            <el-form :model="searchNurseLeaderForm" label-position="top" size=mini ref="applyForm"
+                     label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+              <el-form-item label="治疗区域" prop="name" class="form-label" style="text-align: left">
+                <el-select v-model="searchNurseLeaderForm.treatArea" placeholder="请选择治疗区域" style="width: 330px">
+                  <el-option
+                    v-for="item in treatAreaOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" v-on:click="searchNurseLeader"
+                           style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
+                  查询
+                </el-button>
+              </el-form-item>
+            </el-form>
 
-          <table class="table_head table_border" v-if="nurseLeaderResult.length !== 0">
-            <tr>
-              <th class="table_content">工号</th>
-              <th class="table_content">姓名</th>
-              <th class="table_content">性别</th>
-              <th class="table_content">年龄</th>
-            </tr>
-          </table>
-          <table class="table_head" v-for="item in nurseLeaderResult">
-            <tr class="table_row">
-              <td class="table_content">{{item.id}}</td>
-              <td class="table_content">{{item.name}}</td>
-              <td class="table_content">{{item.gender}}</td>
-              <td class="table_content">{{item.age}}</td>
-            </tr>
-          </table>
-
+            <table class="table_head table_border" v-if="nurseLeaderResult.length !== 0">
+              <tr>
+                <th class="table_content">工号</th>
+                <th class="table_content">姓名</th>
+                <th class="table_content">性别</th>
+                <th class="table_content">年龄</th>
+              </tr>
+            </table>
+            <table class="table_head" v-for="item in nurseLeaderResult">
+              <tr class="table_row">
+                <td class="table_content">{{item.id}}</td>
+                <td class="table_content">{{item.name}}</td>
+                <td class="table_content">{{item.gender}}</td>
+                <td class="table_content">{{item.age}}</td>
+              </tr>
+            </table>
+          </div>
 
           <!--    查询病房护士并显示其结果      -->
-          <div style="font-size: 20px" v-if="this.currentJob === 0 || this.currentJob === 2">查询病房护士</div>
-          <el-form :model="searchRoomNurseForm" label-position="top" size=mini ref="applyForm"
-                   label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
-            <el-form-item label="治疗区域" prop="name" class="form-label" style="text-align: left">
-              <el-select v-model="searchRoomNurseForm.treatArea" placeholder="请选择治疗区域" style="width: 330px">
-                <el-option
-                  v-for="item in treatAreaOption"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" v-on:click="searchRoomNurse"
-                         style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
-                查询
-              </el-button>
-            </el-form-item>
-          </el-form>
+          <div v-if="this.currentJob === 0 || this.currentJob === 2">
+            <div style="font-size: 20px">查询病房护士</div>
+            <el-form :model="searchRoomNurseForm" label-position="top" size=mini ref="applyForm"
+                     label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+              <el-form-item label="治疗区域" prop="name" class="form-label" style="text-align: left">
+                <el-select v-model="searchRoomNurseForm.treatArea" placeholder="请选择治疗区域" style="width: 330px">
+                  <el-option
+                    v-for="item in treatAreaOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" v-on:click="searchRoomNurse"
+                           style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
+                  查询
+                </el-button>
+              </el-form-item>
+            </el-form>
 
-          <table class="table_head table_border" v-if="roomNurseResult.length !== 0">
-            <tr>
-              <th class="table_content">工号</th>
-              <th class="table_content">姓名</th>
-              <th class="table_content">性别</th>
-              <th class="table_content">年龄</th>
-            </tr>
-          </table>
-          <table class="table_head" v-for="item in roomNurseResult">
-            <tr class="table_row">
-              <td class="table_content">{{item.id}}</td>
-              <td class="table_content">{{item.name}}</td>
-              <td class="table_content">{{item.gender}}</td>
-              <td class="table_content">{{item.age}}</td>
-            </tr>
-          </table>
-
+            <table class="table_head table_border" v-if="roomNurseResult.length !== 0">
+              <tr>
+                <th class="table_content">工号</th>
+                <th class="table_content">姓名</th>
+                <th class="table_content">性别</th>
+                <th class="table_content">年龄</th>
+              </tr>
+            </table>
+            <table class="table_head" v-for="item in roomNurseResult">
+              <tr class="table_row">
+                <td class="table_content">{{item.id}}</td>
+                <td class="table_content">{{item.name}}</td>
+                <td class="table_content">{{item.gender}}</td>
+                <td class="table_content">{{item.age}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </el-main>
@@ -125,7 +127,7 @@
         searchRoomNurseForm: {
           treatArea: ''
         },
-        roomNurseResult:[
+        roomNurseResult: [
           // {
           //   id: 6,
           //   name: '刘俊伟',
