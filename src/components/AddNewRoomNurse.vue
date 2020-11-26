@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main style="height:100%;overflow-y: auto">
-      <div class="subject">登记新病人</div>
+      <div class="subject">登记新护士</div>
 
       <div class="shadowBox" style="padding: 20px;margin-right: 10px;display: flex">
         <div style="margin-top: 13px;margin-left: 400px;text-align: left;width: 290px;color: black;">
@@ -52,8 +52,13 @@
 <script>
   export default {
     name: "AddNewRoomNurse",
+    created() {
+      this.currentId = this.$store.state.currentId;
+      alert(this.currentId)
+    },
     data() {
       return {
+        currentId : this.$store.state.currentId,
         roomNurseForm: {
           name: '',
           age: '',
@@ -84,8 +89,9 @@
         this.roomNurseForm.gender = '';
       },
       submit() {
-        console.log(this.patientForm)
+        console.log(this.roomNurseForm)
         this.$axios.post('/addNewRoomNurse', {
+          nurseLeaderId: this.currentId,
           name: this.roomNurseForm.name,
           age: this.roomNurseForm.age,
           gender: this.roomNurseForm.gender,

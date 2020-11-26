@@ -26,7 +26,7 @@
             <em class="el-icon-user icon"></em><span>登记新病人</span>
           </el-menu-item>
           <el-menu-item index="/AddNewRoomNurse" v-if="this.currentJob === 2">
-            <em class="el-icon-user icon"></em><span>登记新病人</span>
+            <em class="el-icon-user icon"></em><span>登记新护士</span>
           </el-menu-item>
         </el-menu>
       </div>
