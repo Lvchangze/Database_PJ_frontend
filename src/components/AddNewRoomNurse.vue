@@ -54,7 +54,7 @@
     name: "AddNewRoomNurse",
     created() {
       this.currentId = this.$store.state.currentId;
-      alert(this.currentId)
+      // alert(this.currentId)
     },
     data() {
       return {
@@ -90,6 +90,13 @@
       },
       submit() {
         console.log(this.roomNurseForm)
+        if (this.roomNurseForm.name === '' ||
+          this.roomNurseForm.age === '' ||
+          this.roomNurseForm.gender === ''
+        ) {
+          this.$message.error("任何一项不得为空")
+          return
+        }
         this.$axios.post('/addNewRoomNurse', {
           nurseLeaderId: this.currentId,
           name: this.roomNurseForm.name,
@@ -97,8 +104,9 @@
           gender: this.roomNurseForm.gender,
         })
           .then(resp => {
+            console.log(resp)
             this.$message({
-                message: "提交成功，新增护士的工号为" + resp.data.staff.id,
+                message: "提交成功，新增护士的工号为" + resp.data.roomNurse.id,
                 type: 'success',
                 duration: 6000
               }

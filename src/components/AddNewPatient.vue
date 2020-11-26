@@ -174,6 +174,18 @@
       },
       submit() {
         console.log(this.patientForm)
+        if (this.patientForm.name === '' ||
+          this.patientForm.age === '' ||
+          this.patientForm.gender === '' ||
+          this.patientForm.arriveDate === '' ||
+          this.patientForm.temperature === '' ||
+          this.patientForm.sickLevel === '' ||
+          this.patientForm.testDate === '' ||
+          this.patientForm.testResult === ''
+        ) {
+          this.$message.error("任何一项不得为空")
+          return
+        }
         this.$axios.post('/addNewPatient', {
           name: this.patientForm.name,
           age: this.patientForm.age,
