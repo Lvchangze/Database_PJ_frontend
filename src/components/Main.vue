@@ -41,8 +41,8 @@
         currentId: this.$store.state.currentId,
 
         //开发时的临时赋值
-        // currentId: 1,
         // currentJob: 1,
+        // currentId: 4,
         loading: false
       }
     },
