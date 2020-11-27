@@ -107,8 +107,8 @@
             </table>
             <table class="table_head" v-for="item in sickBedsResult">
               <tr class="table_row">
-                <td class="table_content">{{item.sickBedId}}</td>
-                <td class="table_content">{{item.sickRoomId}}</td>
+                <td class="table_content">{{ item.sickBedId }}</td>
+                <td class="table_content">{{ item.sickRoomId }}</td>
                 <td class="table_content" v-if="item.patientId !== -1">{{ item.patientId }}号病人使用</td>
                 <td class="table_content" v-if="item.patientId === -1">空闲</td>
               </tr>
@@ -117,7 +117,7 @@
           </div>
 
           <!--    查询病人并显示其结果      -->
-          <div style="font-size: 20px">查询病人</div>
+          <div style="font-size: 20px">根据状态查询病人</div>
           <el-form :model="searchPatientForm" label-position="top" size=mini ref="applyForm"
                    label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
           </el-form>
@@ -254,6 +254,30 @@ export default {
         .then(resp => {
           console.log(resp)
           if (resp.data.status === 1) {
+            this.$axios.post('/searchRoomNurse', {
+              staffId: this.currentId
+            })
+              .then(resp => {
+                console.log(resp)
+                this.roomNurseResult = []
+                for (var i = 0; i < resp.data.roomNurses.length; i++) {
+                  if (resp.data.roomNurses[i].gender === 0) {
+                    resp.data.roomNurses[i].gender = '男'
+                  } else {
+                    resp.data.roomNurses[i].gender = '女'
+                  }
+                }
+                for (var i = 0; i < resp.data.roomNurses.length; i++) {
+                  this.roomNurseResult.push(
+                    {
+                      id: resp.data.roomNurses[i].id,
+                      name: resp.data.roomNurses[i].name,
+                      gender: resp.data.roomNurses[i].gender,
+                      age: resp.data.roomNurses[i].age
+                    },
+                  )
+                }
+              })
             this.$message.success("删除成功")
           } else {
             this.$message.error("删除失败，此护士正在工作")
