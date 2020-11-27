@@ -3,9 +3,10 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Main from '@/components/Main'
-import SearchAndModify from '@/components/SearchAndModify'
+import Search from '@/components/Search'
 import AddNewPatient from '@/components/AddNewPatient'
 import AddNewRoomNurse from '@/components/AddNewRoomNurse'
+import ModifyStaff from "@/components/ModifyStaff";
 
 Vue.use(Router)
 
@@ -31,11 +32,12 @@ export const router = new Router({
       path: '/Main',
       name: 'Main',
       component: Main,
+      redirect: 'Search',
       children: [
         {
-          path: '/SearchAndModify',
-          name: 'SearchAndModify',
-          component: SearchAndModify,
+          path: '/Search',
+          name: 'Search',
+          component: Search,
         },
         {
           path: '/AddNewPatient',
@@ -47,6 +49,11 @@ export const router = new Router({
           name: 'AddNewRoomNurse',
           component: AddNewRoomNurse,
         },
+        {
+          path: '/ModifyStaff',
+          name: 'ModifyStaff',
+          component: ModifyStaff,
+        }
       ]
     },
   ]
