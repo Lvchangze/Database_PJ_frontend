@@ -184,7 +184,7 @@ export default {
         deleteRoomNurseId: para
       })
         .then(resp => {
-          
+
         })
     }
   }
