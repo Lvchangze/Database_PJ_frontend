@@ -36,52 +36,58 @@
             </table>
           </div>
 
-          <!--    查询病房护士并显示其结果      -->
           <div v-if="this.currentJob == 0 || this.currentJob == 2">
-            <div style="font-size: 20px">查询当前区域病房护士</div>
-            <el-form label-position="top" size=mini ref="applyForm"
-                     label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
-              <el-form-item>
-                <el-button type="primary" v-on:click="searchRoomNurse"
-                           style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
-                  查询
-                </el-button>
-              </el-form-item>
-            </el-form>
+            <!--    查询当前区域病房护士并显示其结果      -->
+            <div>
+              <div style="font-size: 20px">查询当前区域病房护士</div>
+              <el-form label-position="top" size=mini ref="applyForm"
+                       label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+                <el-form-item>
+                  <el-button type="primary" v-on:click="searchRoomNurse"
+                             style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
+                    查询
+                  </el-button>
+                </el-form-item>
+              </el-form>
 
-            <table class="table_head table_border" v-if="roomNurseResult.length !== 0">
-              <tr>
-                <th class="table_content">工号</th>
-                <th class="table_content">姓名</th>
-                <th class="table_content">性别</th>
-                <th class="table_content">年龄</th>
-                <th class="table_content" v-if="currentJob == 2">修改</th>
-                <th class="table_content" v-if="currentJob == 2">删除</th>
-              </tr>
-            </table>
-            <table class="table_head" v-for="item in roomNurseResult">
-              <tr class="table_row">
-                <td class="table_content">{{ item.id }}</td>
-                <td class="table_content">{{ item.name }}</td>
-                <td class="table_content">{{ item.gender }}</td>
-                <td class="table_content">{{ item.age }}</td>
-                <td class="table_content" v-if="currentJob == 2">
-                  <el-button type="text" style="width: 10px" v-on:click="jump(item.id)">
-                    修改
-                  </el-button>
-                </td>
-                <td class="table_content" v-if="currentJob == 2" v-on:click="deleteRoomNurse(item.id)">
-                  <el-button type="text" style="width: 10px">
-                    删除
-                  </el-button>
-                </td>
-              </tr>
-            </table>
+              <table class="table_head table_border" v-if="roomNurseResult.length !== 0">
+                <tr>
+                  <th class="table_content">工号</th>
+                  <th class="table_content">姓名</th>
+                  <th class="table_content">性别</th>
+                  <th class="table_content">年龄</th>
+                  <th class="table_content" v-if="currentJob == 2">修改</th>
+                  <th class="table_content" v-if="currentJob == 2">删除</th>
+                </tr>
+              </table>
+              <table class="table_head" v-for="item in roomNurseResult">
+                <tr class="table_row">
+                  <td class="table_content">{{ item.id }}</td>
+                  <td class="table_content">{{ item.name }}</td>
+                  <td class="table_content">{{ item.gender }}</td>
+                  <td class="table_content">{{ item.age }}</td>
+                  <td class="table_content" v-if="currentJob == 2">
+                    <el-button type="text" style="width: 10px" v-on:click="jump(item.id)">
+                      修改
+                    </el-button>
+                  </td>
+                  <td class="table_content" v-if="currentJob == 2" v-on:click="deleteRoomNurse(item.id)">
+                    <el-button type="text" style="width: 10px">
+                      删除
+                    </el-button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!--    查询当前治疗区域待转入其他区域的病人并显示其结果      -->
+
+            <!--    查询当前治疗区域满足出院条件的病人并显示其结果      -->
+
           </div>
-
-          <!--    查询病房并显示其结果      -->
+          <!--    查询病床并显示其结果      -->
           <div v-if="this.currentJob == 2">
-            <div style="font-size: 20px">查询当前区域的病房</div>
+            <div style="font-size: 20px">查询当前区域的病床</div>
             <el-form label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
               <el-form-item>
@@ -95,13 +101,15 @@
             <table class="table_head table_border" v-if="sickBedsResult.length !== 0">
               <tr>
                 <th class="table_content">床号</th>
+                <th class="table_content">所属房号</th>
                 <th class="table_content">状态</th>
               </tr>
             </table>
             <table class="table_head" v-for="item in sickBedsResult">
               <tr class="table_row">
-                <td class="table_content">{{ item.id }}</td>
-                <td class="table_content" v-if="item.patientId !== -1" >{{ item.patientId }}号病人使用</td>
+                <td class="table_content">{{item.sickBedId}}</td>
+                <td class="table_content">{{item.sickRoomId}}</td>
+                <td class="table_content" v-if="item.patientId !== -1">{{ item.patientId }}号病人使用</td>
                 <td class="table_content" v-if="item.patientId === -1">空闲</td>
               </tr>
             </table>
@@ -123,6 +131,8 @@
 <script>
 export default {
   name: "Search",
+  created() {
+  },
   data() {
     return {
       currentJob: this.$store.state.currentJob,
@@ -157,14 +167,16 @@ export default {
         //   age: 19
         // },
       ],
-      sickBedsResult:[
+      sickBedsResult: [
         // {
-        //   id: 9,
-        //   patientId : 4
+        //   sickBedId: 9,
+        //   sickRoomId: 5,
+        //   patientId: 4
         // },
         // {
-        //   id: 12,
-        //   patientId : -1
+        //   sickBedId: 19,
+        //   sickRoomId: 15,
+        //   patientId: -1
         // }
       ],
     }
@@ -197,6 +209,7 @@ export default {
           console.log(error)
         })
     },
+
     searchRoomNurse() {
       this.$axios.post('/searchRoomNurse', {
         staffId: this.currentId
@@ -204,7 +217,23 @@ export default {
         .then(resp => {
           console.log(resp)
           this.roomNurseResult = []
-
+          for (var i = 0; i < resp.data.roomNurses.length; i++) {
+            if (resp.data.roomNurses[i].gender === 0) {
+              resp.data.roomNurses[i].gender = '男'
+            } else {
+              resp.data.roomNurses[i].gender = '女'
+            }
+          }
+          for (var i = 0; i < resp.data.roomNurses.length; i++) {
+            this.roomNurseResult.push(
+              {
+                id: resp.data.roomNurses[i].id,
+                name: resp.data.roomNurses[i].name,
+                gender: resp.data.roomNurses[i].gender,
+                age: resp.data.roomNurses[i].age
+              },
+            )
+          }
           this.$message.success("查询成功")
         })
         .catch(error => {
@@ -212,38 +241,54 @@ export default {
           console.log(error)
         })
     },
+
     jump(para) {
       this.$store.commit('setModifyTarget', para);
       this.$router.replace({path: '/ModifyStaff'})
     },
+
     deleteRoomNurse(para) {
       this.$axios.post('/deleteRoomNurse', {
-        deleteRoomNurseId: para
+        staffId: para
       })
         .then(resp => {
           console.log(resp)
-
-          this.$message.success("删除成功")
+          if (resp.data.status === 1) {
+            this.$message.success("删除成功")
+          } else {
+            this.$message.error("删除失败，此护士正在工作")
+          }
         })
         .catch(error => {
           this.$message.error("删除失败，请重试")
           console.log(error)
         })
     },
+
     searchSickBed() {
       this.$axios.post('/searchSickBed', {
         staffId: this.currentId
       })
         .then(resp => {
           console.log(resp)
-
+          this.sickBedsResult = []
+          for (var i = 0; i < resp.data.sickBeds.length; i++) {
+            this.sickBedsResult.push(
+              {
+                sickBedId: resp.data.sickBeds[i].id,
+                sickRoomId: resp.data.sickBeds[i].sickRoomID,
+                patientId: resp.data.sickBeds[i].patientId
+              }
+            )
+          }
           this.$message.success("查询成功")
         })
         .catch(error => {
           this.$message.error("查询失败，请重试")
           console.log(error)
         })
-    }
+    },
+
   }
 }
 </script>

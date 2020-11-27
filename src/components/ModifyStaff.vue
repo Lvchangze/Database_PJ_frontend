@@ -13,6 +13,11 @@
                         placeholder="请输入姓名"></el-input>
             </el-form-item>
 
+            <el-form-item prop="password" class="form-label" label="密码" label-width="80px">
+              <el-input type="password" v-model="staffForm.password"
+                        auto-complete="off" placeholder="请输入密码" style="width: 330px"></el-input>
+            </el-form-item>
+
             <el-form-item prop="gender" class="form-label" label="性别" label-width="80px">
               <el-select v-model="staffForm.gender" placeholder="请选择性别" style="width: 330px">
                 <el-option
@@ -60,11 +65,13 @@ export default {
         name: '',
         age: '',
         gender: '',
+        password: '',
       },
       rules: {
         name: [{required: true, message: '姓名不得为空', trigger: 'blur'}],
         gender: [{required: true, message: '性别不得为空', trigger: 'blur'}],
         age: [{required: true, message: '年龄不得为空', trigger: 'blur'}],
+        password: [{required: true, message: '密码不得为空', trigger: 'blur'}],
       },
       genderOption: [
         {
@@ -82,6 +89,7 @@ export default {
     submit() {
       if (this.staffForm.name === '' ||
         this.staffForm.age === '' ||
+        this.staffForm.password === '' ||
         this.staffForm.gender === '') {
         this.$message.error('任何一项不得为空')
         return
@@ -91,6 +99,7 @@ export default {
         name: this.staffForm.name,
         age: this.staffForm.age,
         gender: this.staffForm.gender,
+        password: this.staffForm.password
       })
         .then(resp => {
           this.$message.success('修改成功')
@@ -103,6 +112,7 @@ export default {
       this.staffForm.name = '';
       this.staffForm.age = '';
       this.staffForm.gender = '';
+      this.staffForm.password = "";
     }
   }
 }
