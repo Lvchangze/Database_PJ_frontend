@@ -7,6 +7,7 @@ import Search from '@/components/Search'
 import AddNewPatient from '@/components/AddNewPatient'
 import AddNewRoomNurse from '@/components/AddNewRoomNurse'
 import ModifyStaff from "@/components/ModifyStaff";
+import ModifyPatient from "@/components/ModifyPatient"
 
 Vue.use(Router)
 
@@ -53,7 +54,12 @@ export const router = new Router({
           path: '/ModifyStaff',
           name: 'ModifyStaff',
           component: ModifyStaff,
-        }
+        },
+        {
+          path: '/ModifyPatient',
+          name: 'ModifyPatient',
+          component: ModifyPatient,
+        },
       ]
     },
   ]

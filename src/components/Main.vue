@@ -4,7 +4,7 @@
       <div class="left"><img src="../assets/timg.jpg" class="logo" alt="1"></div>
       <h2 style="margin: 0;font-size:26px">阳光医院 信息管理系统</h2>
       <div class="right">
-        <div class="items"><span class="txt">你好，{{ this.currentId }}号工作人员</span></div>
+        <div class="items"><span class="txt">你好，{{ this.currentId }}号工作人员，{{this.JobText}}</span></div>
         <span class="line"></span>
         <div class="login"><span class="txt" v-on:click="jump">修改个人信息</span></div>
         <div class="login"><span class="txt" v-on:click="quit">退出登录</span></div>
@@ -38,8 +38,29 @@
 <script>
 export default {
   name: "Main",
+  created() {
+    switch (this.currentJob){
+      case 0:{
+        this.JobText = '主治医生'
+        break;
+      }
+      case 2:{
+        this.JobText = '护士长'
+        break;
+      }
+      case 1:{
+        this.JobText = '急诊护士'
+        break;
+      }
+      case 3:{
+        this.JobText = '病房护士'
+        break;
+      }
+    }
+  },
   data() {
     return {
+      JobText :'',
       currentJob: this.$store.state.currentJob,
       currentId: this.$store.state.currentId,
 

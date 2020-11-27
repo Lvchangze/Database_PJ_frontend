@@ -5,12 +5,6 @@
       <div class="shadowbox" style="padding: 20px;margin-right: 0;display: flex">
         <div style="margin-top: 0;margin-left: 400px;text-align: left;width: 290px;color: black;">
 
-          <div style="font-size: 20px">查询病人</div>
-          <el-form :model="searchPatientForm" label-position="top" size=mini ref="applyForm"
-                   label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
-          </el-form>
-
-
           <!--    查询护士长并显示其结果      -->
           <div v-if="this.currentJob == 0">
             <div style="font-size: 20px">查询当前区域护士长</div>
@@ -45,7 +39,7 @@
           <!--    查询病房护士并显示其结果      -->
           <div v-if="this.currentJob == 0 || this.currentJob == 2">
             <div style="font-size: 20px">查询当前区域病房护士</div>
-            <el-form :model="searchRoomNurseForm" label-position="top" size=mini ref="applyForm"
+            <el-form label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
               <el-form-item>
                 <el-button type="primary" v-on:click="searchRoomNurse"
@@ -84,6 +78,42 @@
               </tr>
             </table>
           </div>
+
+          <!--    查询病房并显示其结果      -->
+          <div v-if="this.currentJob == 2">
+            <div style="font-size: 20px">查询当前区域的病房</div>
+            <el-form label-position="top" size=mini ref="applyForm"
+                     label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+              <el-form-item>
+                <el-button type="primary" v-on:click="searchSickBed"
+                           style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
+                  查询
+                </el-button>
+              </el-form-item>
+            </el-form>
+
+            <table class="table_head table_border" v-if="sickBedsResult.length !== 0">
+              <tr>
+                <th class="table_content">床号</th>
+                <th class="table_content">状态</th>
+              </tr>
+            </table>
+            <table class="table_head" v-for="item in sickBedsResult">
+              <tr class="table_row">
+                <td class="table_content">{{ item.id }}</td>
+                <td class="table_content" v-if="item.patientId !== -1" >{{ item.patientId }}号病人使用</td>
+                <td class="table_content" v-if="item.patientId === -1">空闲</td>
+              </tr>
+            </table>
+
+          </div>
+
+          <!--    查询病人并显示其结果      -->
+          <div style="font-size: 20px">查询病人</div>
+          <el-form :model="searchPatientForm" label-position="top" size=mini ref="applyForm"
+                   label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+          </el-form>
+
         </div>
       </div>
     </el-main>
@@ -113,29 +143,36 @@ export default {
         // },
       ],
 
-      searchRoomNurseForm: {
-        treatArea: ''
-      },
       roomNurseResult: [
-        {
-          id: 6,
-          name: '刘俊伟',
-          gender: '男',
-          age: 10
-        },
-        {
-          id: 7,
-          name: '刘伟',
-          gender: '男',
-          age: 19
-        },
+        // {
+        //   id: 6,
+        //   name: '刘俊伟',
+        //   gender: '男',
+        //   age: 10
+        // },
+        // {
+        //   id: 7,
+        //   name: '刘伟',
+        //   gender: '男',
+        //   age: 19
+        // },
+      ],
+      sickBedsResult:[
+        // {
+        //   id: 9,
+        //   patientId : 4
+        // },
+        // {
+        //   id: 12,
+        //   patientId : -1
+        // }
       ],
     }
   },
   methods: {
     searchNurseLeader() {
       this.$axios.post('/searchNurseLeader', {
-        doctorId: this.currentId
+        staffId: this.currentId
       })
         .then(resp => {
           console.log(resp)
@@ -162,7 +199,7 @@ export default {
     },
     searchRoomNurse() {
       this.$axios.post('/searchRoomNurse', {
-        doctorId: this.currentId
+        staffId: this.currentId
       })
         .then(resp => {
           console.log(resp)
@@ -184,7 +221,27 @@ export default {
         deleteRoomNurseId: para
       })
         .then(resp => {
+          console.log(resp)
 
+          this.$message.success("删除成功")
+        })
+        .catch(error => {
+          this.$message.error("删除失败，请重试")
+          console.log(error)
+        })
+    },
+    searchSickBed() {
+      this.$axios.post('/searchSickBed', {
+        staffId: this.currentId
+      })
+        .then(resp => {
+          console.log(resp)
+
+          this.$message.success("查询成功")
+        })
+        .catch(error => {
+          this.$message.error("查询失败，请重试")
+          console.log(error)
         })
     }
   }
