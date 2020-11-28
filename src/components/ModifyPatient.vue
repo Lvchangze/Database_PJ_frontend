@@ -286,7 +286,7 @@ export default {
             this.dailyInformation.liveState = ''
             this.dailyInformation.sickLevel = ''
           } else {
-            this.$message.error("提交错误，请重试")
+            this.$message.error("今日已提交，无法重复提交")
           }
         })
     },
@@ -311,7 +311,7 @@ export default {
             this.testForm.testResult = ''
             this.testForm.sickLevel = ''
           } else {
-            this.$message.error("提交错误，请重试")
+            this.$message.error("今日已提交，无法重复提交")
           }
         })
     }
