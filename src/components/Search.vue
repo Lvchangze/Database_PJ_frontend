@@ -879,7 +879,7 @@ export default {
       })
         .then(resp => {
           console.log(resp)
-          if (resp.data.patients === null) {
+          if (resp.data.patients.length === 0) {
             this.$message.error('无这样的病人')
             return
           }
