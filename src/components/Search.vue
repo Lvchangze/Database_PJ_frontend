@@ -645,7 +645,7 @@ export default {
       })
         .then(resp => {
           console.log(resp)
-          if (resp.data.patients === null) {
+          if (resp.data.patients.length === 0) {
             this.$message.error("暂无可出院病人")
             return
           }
@@ -658,7 +658,7 @@ export default {
             }
             this.satisfiedPatientResult.push(
               {
-                patientId: resp.data.patients[i].patientId,
+                patientId: resp.data.patients[i].patientID,
                 name: resp.data.patients[i].name,
                 age: resp.data.patients[i].age,
                 gender: resp.data.patients[i].gender,
