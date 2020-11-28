@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main style="height:100%;overflow-y: auto">
-      <div class="subject">修改信息</div>
+      <div class="subject">修改员工信息</div>
 
       <div class="shadowBox" style="padding: 20px;margin-right: 10px;display: flex">
         <div style="margin-top: 13px;margin-left: 400px;text-align: left;width: 290px;color: black;">

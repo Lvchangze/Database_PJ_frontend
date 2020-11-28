@@ -230,7 +230,7 @@
                   <td class="table_content">{{ item.age }}</td>
                   <td class="table_content" v-if="currentJob == 0 || currentJob == 3">
                     <el-button type="text" style="width: 10px" v-on:click="jumpToModifyPatient(item.patientId)">
-                      修改
+                      登记新信息
                     </el-button>
                   </td>
                 </tr>
@@ -286,7 +286,7 @@
                 <th class="table_content">姓名</th>
                 <th class="table_content">性别</th>
                 <th class="table_content">年龄</th>
-                <th class="table_content" v-if="currentJob == 0">操作</th>
+                <th class="table_content" v-if="currentJob == 0 || currentJob == 3">操作</th>
               </tr>
             </table>
             <table class="table_head" v-for="item in patientByStateResult">
@@ -295,11 +295,11 @@
                 <td class="table_content">{{ item.name }}</td>
                 <td class="table_content">{{ item.gender }}</td>
                 <td class="table_content">{{ item.age }}</td>
-                <td class="table_content" v-if="currentJob == 0"
+                <td class="table_content" v-if="currentJob == 0 || currentJob == 3"
                     v-on:click="jumpToModifyPatient(item.patientId)"
                 >
                   <el-button type="text" style="width: 10px">
-                    修改
+                    登记新信息
                   </el-button>
                 </td>
               </tr>
