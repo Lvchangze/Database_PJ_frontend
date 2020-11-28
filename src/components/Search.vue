@@ -841,11 +841,11 @@ export default {
       })
         .then(resp => {
           console.log(resp)
+          this.patientByStateResult = [];
           if (resp.data.patients.length === 0) {
             this.$message.error('无这样的病人或您没有全选管辖这个病人')
             return
           }
-          this.patientByStateResult = [];
           for (var i = 0; i < resp.data.patients.length; i++) {
             if (resp.data.patients[i].gender === 0) {
               resp.data.patients[i].gender = '男'
