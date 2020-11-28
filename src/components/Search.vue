@@ -154,10 +154,6 @@
               </table>
             </div>
 
-          </div>
-
-          <div v-if="this.currentJob == 0 || this.currentJob == 2 || this.currentJob == 3">
-
             <!--    查询满足出院的病人并显示其结果      -->
             <div>
               <div style="font-size: 20px">查询<span style="color: red">满足出院条件</span>的病人</div>
@@ -195,14 +191,21 @@
               </table>
             </div>
 
+          </div>
+
+          <div v-if="this.currentJob == 0 || this.currentJob == 2 || this.currentJob == 3">
+
             <!--    根据病房护士的id查询病人      -->
             <div>
-              <div style="font-size: 20px">根据<span style="color: red">病房护士的id</span>查询病人</div>
+              <div style="font-size: 20px">根据<span style="color: red">
+                <span v-if="this.currentJob == 3">您</span><span v-if="this.currentJob != 3">病房护士</span>的id</span>查询病人
+              </div>
               <el-form label-position="top" size=mini ref="applyForm"
                        label-width="150px" style="margin:9px 0 auto;width: 330px;">
-                <el-form-item prop="name" class="form-label" label="护士id" label-width="80px">
+                <el-form-item prop="name" class="form-label" label="护士id" label-width="80px"
+                              v-if="this.currentJob != 3">
                   <el-input type="text" v-model="roomNurseIdForSearchPatient"
-                            auto-complete="off" placeholder="请输入护士id" style="width: 203px"></el-input>
+                            auto-complete="off" placeholder="请输入护士id" style="width: 330px"></el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -772,9 +775,12 @@ export default {
     },
 
     searchPatientByRoomNurseId() {
-      if (this.roomNurseIdForSearchPatient === '') {
+      if (this.roomNurseIdForSearchPatient === '' && this.currentJob !== 3) {
         this.$message.error("护士id不得为空")
         return
+      }
+      if (this.currentJob === 3) {
+        this.roomNurseIdForSearchPatient = this.currentId
       }
       this.$axios.post('/searchPatientByRoomNurseId', {
         staffId: this.currentId,
@@ -812,6 +818,7 @@ export default {
           this.$message.error("查询失败，请重试")
           console.log(error)
         })
+
     },
 
     jumpToModifyPatient(para) {
