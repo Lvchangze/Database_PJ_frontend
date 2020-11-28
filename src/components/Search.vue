@@ -777,15 +777,16 @@ export default {
         return
       }
       this.$axios.post('/searchPatientByRoomNurseId', {
-        staffId: this.currentJob,
+        staffId: this.currentId,
         roomNurseId: this.roomNurseIdForSearchPatient
       })
         .then(resp => {
+          console.log(resp)
           if (resp.data.status === 1) {
-            this.$message.error("此护士不在您的管辖范围内")
+            this.$message.error("此人不在您的管辖范围内")
             return
           } else if (resp.data.status === -1) {
-            this.$message.error("该护士不在照顾病人")
+            this.$message.error("该人不在照顾病人")
             return
           }
           this.patientByRoomNurseIdResult = []
@@ -797,7 +798,7 @@ export default {
             }
             this.patientByRoomNurseIdResult.push(
               {
-                patientId: resp.data.patients[i].patientId,
+                patientId: resp.data.patients[i].patientID,
                 name: resp.data.patients[i].name,
                 age: resp.data.patients[i].age,
                 gender: resp.data.patients[i].gender,
@@ -832,7 +833,8 @@ export default {
         liveState: this.searchPatientStateForm.liveState,
       })
         .then(resp => {
-          if (resp.data.patients === null) {
+          console.log(resp)
+          if (resp.data.patients.length === 0 || resp.data.patients === null) {
             this.$message.error('无这样的病人')
             return
           }
@@ -845,7 +847,7 @@ export default {
             }
             this.patientByStateResult.push(
               {
-                patientId: resp.data.patients[i].patientId,
+                patientId: resp.data.patients[i].patientID,
                 name: resp.data.patients[i].name,
                 age: resp.data.patients[i].age,
                 gender: resp.data.patients[i].gender,
@@ -869,6 +871,7 @@ export default {
         treatArea: this.emergencyNurseSearchForm.treatArea
       })
         .then(resp => {
+          console.log(resp)
           if (resp.data.patients === null) {
             this.$message.error('无这样的病人')
             return
@@ -882,7 +885,7 @@ export default {
             }
             this.emergencyNurseSearchResult.push(
               {
-                patientId: resp.data.patients[i].patientId,
+                patientId: resp.data.patients[i].patientID,
                 name: resp.data.patients[i].name,
                 age: resp.data.patients[i].age,
                 gender: resp.data.patients[i].gender,
