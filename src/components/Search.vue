@@ -714,7 +714,7 @@ export default {
       })
         .then(resp => {
           console.log(resp)
-          if (resp.data.patients === null) {
+          if (resp.data.patients.length === 0) {
             this.$message.error("暂无待转入其他区域的病人")
             return
           }
@@ -741,7 +741,7 @@ export default {
             }
             this.specialPatientResult.push(
               {
-                patientId: resp.data.patients[i].patientId,
+                patientId: resp.data.patients[i].patientID,
                 name: resp.data.patients[i].name,
                 age: resp.data.patients[i].age,
                 gender: resp.data.patients[i].gender,
