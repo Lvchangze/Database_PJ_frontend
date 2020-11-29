@@ -248,7 +248,7 @@
             <el-form :model="searchPatientStateForm" label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
 
-              <el-form-item prop="name" class="form-label" label="病人id" label-width="80px">
+              <el-form-item prop="name" class="form-label" label="病人id(最高优先级)" label-width="80px">
                 <el-input type="text" v-model="searchPatientStateForm.patientId"
                           auto-complete="off" placeholder="请输入病人id" style="width: 330px"></el-input>
               </el-form-item>
@@ -361,7 +361,40 @@
 export default {
   name: "Search",
   created() {
-
+    //主治医生登陆时，查看有无可出院的病人
+    if (this.currentJob == 0) {
+      this.$axios.post('/searchSatisfiedPatient', {
+        staffId: this.currentId,
+      })
+        .then(resp => {
+          console.log(resp)
+          if (resp.data.patients.length === 0) {
+            this.$message.error("您管辖的区域暂无可出院病人")
+            return
+          }
+          this.satisfiedPatientResult = [];
+          for (var i = 0; i < resp.data.patients.length; i++) {
+            if (resp.data.patients[i].gender === 0) {
+              resp.data.patients[i].gender = '男'
+            } else {
+              resp.data.patients[i].gender = '女'
+            }
+            this.satisfiedPatientResult.push(
+              {
+                patientId: resp.data.patients[i].patientID,
+                name: resp.data.patients[i].name,
+                age: resp.data.patients[i].age,
+                gender: resp.data.patients[i].gender,
+              }
+            )
+          }
+          this.$message.warning("有可出院病人，请尽快操作")
+        })
+        .catch(error => {
+          this.$message.error("查询失败，请重试")
+          console.log(error)
+        })
+    }
   },
   data() {
     return {
@@ -646,7 +679,7 @@ export default {
         .then(resp => {
           console.log(resp)
           if (resp.data.patients.length === 0) {
-            this.$message.error("暂无可出院病人")
+            this.$message.error("您管辖的区域暂无可出院病人")
             return
           }
           this.satisfiedPatientResult = [];
@@ -700,10 +733,10 @@ export default {
                 )
               }
             })
-          this.$message.success("删除成功")
+          this.$message.success("出院成功")
         })
         .catch(error => {
-          this.$message.error("删除失败，请重试")
+          this.$message.error("出院失败，请重试")
           console.log(error)
         })
     },
@@ -763,7 +796,47 @@ export default {
       })
         .then(resp => {
           if (resp.data.status === 1) {
-            this.$message.success("查询成功")
+            this.$axios.post('/searchSpecialPatient', {
+              staffId: this.currentId,
+            })
+              .then(resp => {
+                console.log(resp)
+                this.specialPatientResult = [];
+                for (var i = 0; i < resp.data.patients.length; i++) {
+                  if (resp.data.patients[i].gender === 0) {
+                    resp.data.patients[i].gender = '男'
+                  } else {
+                    resp.data.patients[i].gender = '女'
+                  }
+                  switch (resp.data.patients[i].sickLevel) {
+                    case 1 : {
+                      resp.data.patients[i].sickLevel = '轻症'
+                      break
+                    }
+                    case 2 : {
+                      resp.data.patients[i].sickLevel = '重症'
+                      break
+                    }
+                    case 3 : {
+                      resp.data.patients[i].sickLevel = '危重症'
+                      break
+                    }
+                  }
+                  this.specialPatientResult.push(
+                    {
+                      patientId: resp.data.patients[i].patientID,
+                      name: resp.data.patients[i].name,
+                      age: resp.data.patients[i].age,
+                      gender: resp.data.patients[i].gender,
+                      sickLevel: resp.data.patients[i].sickLevel,
+                    },
+                  )
+                }
+              })
+              .catch(error => {
+                console.log(error)
+              })
+            this.$message.success("转出成功")
           } else {
             this.$message.error("目标治疗区域无法移入新病人")
           }
@@ -788,6 +861,7 @@ export default {
       })
         .then(resp => {
           console.log(resp)
+          this.patientByRoomNurseIdResult = []
           if (resp.data.status === 1) {
             this.$message.error("此人不在您的管辖范围内")
             return
@@ -795,7 +869,6 @@ export default {
             this.$message.error("该人不在照顾病人")
             return
           }
-          this.patientByRoomNurseIdResult = []
           for (var i = 0; i < resp.data.patients.length; i++) {
             if (resp.data.patients[i].gender === 0) {
               resp.data.patients[i].gender = '男'
@@ -879,11 +952,11 @@ export default {
       })
         .then(resp => {
           console.log(resp)
+          this.emergencyNurseSearchResult = [];
           if (resp.data.patients.length === 0) {
             this.$message.error('无这样的病人')
             return
           }
-          this.emergencyNurseSearchResult = [];
           for (var i = 0; i < resp.data.patients.length; i++) {
             if (resp.data.patients[i].gender === 0) {
               resp.data.patients[i].gender = '男'
