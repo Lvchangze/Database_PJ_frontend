@@ -167,9 +167,8 @@ export default {
   data() {
     return {
       patientId: this.$store.state.modifyPatientId,
-      // currentId: this.$store.state.currentId,
-      // currentJob: this.$store.state.currentJob,
-      currentJob: 0,
+      currentId: this.$store.state.currentId,
+      currentJob: this.$store.state.currentJob,
       sickLevelOption: [
         {
           value: 1,
