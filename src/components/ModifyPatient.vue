@@ -6,33 +6,6 @@
         <div style="margin-top: 0;margin-left: 350px;text-align: left;width: 400px;color: black;">
 
           <div v-if="currentJob == 0">
-            <!-- 修改病情评级-->
-            <div>
-              <div style="font-size: 20px">修改病情评级</div>
-              <el-form label-position="top" size=mini ref="applyForm"
-                       label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
-
-                <el-form-item label="病情评级" prop="sickLevel" class="form-label" style="text-align: left">
-                  <el-select v-model="newSickLevel" placeholder="请选择病情评级" style="width: 330px">
-                    <el-option
-                      v-for="item in sickLevelOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="primary" v-on:click="submitNewSickLevel"
-                             style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
-                    提交
-                  </el-button>
-                </el-form-item>
-
-              </el-form>
-            </div>
-
             <!-- 修改生命状态-->
             <div>
               <div style="font-size: 20px">修改生命状态</div>
@@ -59,6 +32,34 @@
 
               </el-form>
             </div>
+
+            <!-- 修改病情评级-->
+            <div v-if="newLiveState === 1">
+              <div style="font-size: 20px">修改病情评级</div>
+              <el-form label-position="top" size=mini ref="applyForm"
+                       label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
+
+                <el-form-item label="病情评级" prop="sickLevel" class="form-label" style="text-align: left">
+                  <el-select v-model="newSickLevel" placeholder="请选择病情评级" style="width: 330px">
+                    <el-option
+                      v-for="item in sickLevelOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" v-on:click="submitNewSickLevel"
+                             style="background-color: #356eff;border-color: #356eff;width: 100px;height: 30px;margin-right: 10px;">
+                    提交
+                  </el-button>
+                </el-form-item>
+
+              </el-form>
+            </div>
+
           </div>
 
           <div v-if="currentJob == 3">
@@ -109,7 +110,7 @@
           </div>
 
           <!-- 添加核酸检测单-->
-          <div v-if="currentJob == 0 || currentJob == 3">
+          <div v-if="(currentJob == 0 || currentJob == 3) && newLiveState === 1">
             <div style="font-size: 20px">登记新核酸检测单</div>
             <el-form :model="testForm" label-position="top" size=mini ref="applyForm"
                      label-width="150px" class="demo-ruleForm" style="margin:9px 0 auto;width: 330px;">
@@ -166,8 +167,9 @@ export default {
   data() {
     return {
       patientId: this.$store.state.modifyPatientId,
-      currentId: this.$store.state.currentId,
-      currentJob: this.$store.state.currentJob,
+      // currentId: this.$store.state.currentId,
+      // currentJob: this.$store.state.currentJob,
+      currentJob: 0,
       sickLevelOption: [
         {
           value: 1,
@@ -208,7 +210,7 @@ export default {
       ],
 
       newSickLevel: '',
-      newLiveState: '',
+      newLiveState: 1,
       dailyInformation: {
         temperature: '',
         symptom: '',
